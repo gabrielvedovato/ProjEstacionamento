@@ -1,13 +1,11 @@
 #INCLUDE "TOTVS.CH"
 
 /*---------------------------------------
-Função que calcula Valor a ser cobrado pelo cliente
+FunÃ§Ã£o que calcula Valor a ser cobrado pelo cliente
 Autor: Gabriel
 Data: 21/09/2022
 Projeto: Estacionamento
 --------------------------------------- */
-
-//TESTE CLONE
 
 User Function ESTCALC(dDtEnt,cHrEnt,dDtSai,cHrSai)
 LOCAL cQtdHor   := ""
@@ -38,17 +36,17 @@ IF dDtEnt == dDtSai
 // Uso a funcao separa para me retornar um Array com as horas, minutos e segundos / poderia usar tbm, substr()
     aHoras := Separa(cQtdHor,":")
 
-// Jogo para uma variavel as informacoes ja transformando em numero, através da funcao VAL()
+// Jogo para uma variavel as informacoes ja transformando em numero, atravÃ©s da funcao VAL()
     nHoras     := Val(aHoras[1])
     nMinutos   := Val(aHoras[2])
 
 //Calculo
 
-//Tratamento para diária
+//Tratamento para diÃ¡ria
     IF nHoras >= 12
         nValor := nVDiar
     ELSE
-// Verifico se é primeira hora - pelo meu contador
+// Verifico se Ã© primeira hora - pelo meu contador
         WHILE ((nHoras > 0) .AND. (nCount <=  nHoras))
             IF nCount == 1
                 nValor := nValor + nV1aHr
