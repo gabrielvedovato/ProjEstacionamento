@@ -7,10 +7,7 @@ Data: 21/09/2022
 Projeto: Estacionamento
 --------------------------------------- */
 
-//TESTE BRANCH 
-//TESTE 2
-//TESTE 3
-//TESTE 4
+//teste5
 
 User Function ESTCALC(dDtEnt,cHrEnt,dDtSai,cHrSai)
 LOCAL cQtdHor   := ""
