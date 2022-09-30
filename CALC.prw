@@ -7,6 +7,8 @@ Data: 21/09/2022
 Projeto: Estacionamento
 --------------------------------------- */
 
+//TESTE
+
 User Function ESTCALC(dDtEnt,cHrEnt,dDtSai,cHrSai)
 LOCAL cQtdHor   := ""
 LOCAL aHoras    := {}
