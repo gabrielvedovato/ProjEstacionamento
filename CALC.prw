@@ -1,7 +1,7 @@
 #INCLUDE "TOTVS.CH"
 
 /*---------------------------------------
-FunÃ§Ã£o que calcula Valor a ser cobrado pelo cliente
+Função que calcula Valor a ser cobrado pelo cliente
 Autor: Gabriel
 Data: 21/09/2022
 Projeto: Estacionamento
