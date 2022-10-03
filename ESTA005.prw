@@ -42,10 +42,10 @@ WHILE Z05->(!EOF()) // Roda enquanto não for o fim da tabela
     ELSE
         nContMot++
     ENDIF    
-        Z05->(DbSkip())   
+    Z05->(DbSkip())   
 ENDDO
 
-IF nVagCar > nContCar .or. nVagMot > nContMot //Verifica se existe vagas
+IF (nVagCar > nContCar) .or. (nVagMot > nContMot) //Verifica se existe vagas
     lRet := .T.
 ENDIF
 

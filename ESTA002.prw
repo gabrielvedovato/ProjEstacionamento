@@ -26,6 +26,7 @@ LOCAL cInfo := &(cCampo)
 lRet := FCondLaco(cInfo)
 RETURN lRet
 
+//
 STATIC FUNCTION FCondLaco(cInfo)
 LOCAL lRet := .T.
 LOCAL nTamanho := Len(cInfo)
@@ -39,6 +40,13 @@ WHILE nTamanho > nCount
     nCount ++
 END DO
 RETURN lRet
+
+/*-----------------------------
+Função para bloquear a escrita do nome da empresa
+Autor: Gabriel
+Data: 14/09/2022
+Projeto: Estacionamento
+------------------------------*/
 
 USER FUNCTION FVNomeMod()
 LOCAL lRetorno := .T.

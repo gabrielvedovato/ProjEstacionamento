@@ -20,10 +20,10 @@ Projeto: Estacionamento
 ------------------------------*/
 
 USER FUNCTION FVNomeMar()
-LOCAL lRetorno := .T.
-LOCAL cCampo := ReadVar()
-LOCAL cInfo := &(cCampo)
-LOCAL cEspaco := AllTrim(cInfo)
+LOCAL lRetorno  := .T.
+LOCAL cCampo    := ReadVar()
+LOCAL cInfo     := &(cCampo)
+LOCAL cEspaco   := AllTrim(cInfo)
 IF ("DS2U" $ cEspaco)
     Alert("Não pode conter o nome da empresa")
     lRetorno := .F.
