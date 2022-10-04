@@ -8,29 +8,29 @@ Projeto: Estacionamento
 ------------------------------*/
 
 USER FUNCTION ESTA005()
-local cTitulo := "Movimentações"
+local cTitulo       := "Movimentações"
+LOCAL nVagCar       := SuperGetMV("ES_VAGACAR",.T.,"30")
+LOCAL nVagMoto      := SuperGetMV("ES_VAGAMOT",.T.,"30")
+LOCAL nContCar      := VagaCarro()
+LOCAL nContMoto     := VagaMoto()
 
-IF FVerVagas()
-    AxCadastro("Z05",cTitulo,/*u_cVldExc(),cVldAlt*/)
+IF (nContCar < nVagCar) .or. (nContMoto < nVagMoto) 
+    AxCadastro("Z05",cTitulo)   
 ELSE
-    Alert("Não há mais vagas")
+    Alert("Não possuem vagas disponíveis")
 ENDIF
 
 RETURN
 
 /*-----------------------------
-Função que verifica se tem vagas disponíveis
+Função que verifica se tem vagas de carros disponíveis
 Autor: Gabriel
-Data: 27/09/2022
+Data: 04/10/2022
 Projeto: Estacionamento
 ------------------------------*/
 
-STATIC FUNCTION FVerVagas()
-LOCAL lRet      := .F.
-LOCAL nVagCar   := SuperGetMV("ES_VAGACAR",.T.,"30")
-LOCAL nVagMot   := SuperGetMV("ES_VAGAMOT",.T.,"15")
+STATIC FUNCTION VagaCarro()
 LOCAL nContCar     := 0
-LOCAL nContMot     := 0
 
 DbSelectArea("Z05") // Abre a tabela Z05
 Z05->(DbSetOrder(1)) // Seto o indice 1 para ordenação
@@ -39,17 +39,34 @@ Z05->(DbGoTop()) // Posiciona no topo da tabela
 WHILE Z05->(!EOF()) // Roda enquanto não for o fim da tabela
     IF Z05->Z05_TIPO == "1"
         nContCar++
-    ELSE
-        nContMot++
     ENDIF    
         Z05->(DbSkip())   
 ENDDO
 
-IF nVagCar > nContCar .or. nVagMot > nContMot //Verifica se existe vagas
-    lRet := .T.
-ENDIF
+RETURN nContCar
 
-RETURN lRet
+/*-----------------------------
+Função que verifica se tem vagas de motos disponíveis
+Autor: Gabriel
+Data: 04/10/2022
+Projeto: Estacionamento
+------------------------------*/
+
+STATIC FUNCTION VagaMoto()
+LOCAL nContMoto     := 0
+
+DbSelectArea("Z05") // Abre a tabela Z05
+Z05->(DbSetOrder(1)) // Seto o indice 1 para ordenação
+Z05->(DbGoTop()) // Posiciona no topo da tabela
+
+WHILE Z05->(!EOF()) // Roda enquanto não for o fim da tabela
+    IF Z05->Z05_TIPO == "2"
+        nContMoto++
+    ENDIF    
+        Z05->(DbSkip())   
+ENDDO
+
+RETURN nContMoto
 
 /*-----------------------------
 Função que verifica o carro ainda está no estacionamento
