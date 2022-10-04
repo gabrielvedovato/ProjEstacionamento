@@ -9,13 +9,7 @@ Projeto: Estacionamento
 
 USER FUNCTION ESTA005()
 local cTitulo       := "Movimentações"
-
-IF VerificaVaga()  == .T.
-    AxCadastro("Z05",cTitulo)   
-ELSE
-    Alert("Não possuem vagas disponíveis")
-ENDIF
-
+AxCadastro("Z05",cTitulo)   
 RETURN NIL
 
 /*-----------------------------
@@ -25,12 +19,14 @@ Data: 04/10/2022
 Projeto: Estacionamento
 ------------------------------*/
 
-STATIC FUNCTION VerificaVaga()
+USER FUNCTION VerificaVaga()
 LOCAL lRet          := .T.
 LOCAL nVagCar       := SuperGetMV("ES_VAGACAR",.T.,"30")
 LOCAL nVagMoto      := SuperGetMV("ES_VAGAMOT",.T.,"30")
 LOCAL nContCar      := 0
 LOCAL nContMoto     := 0
+LOCAL cCampo        := ReadVar()
+LOCAL cInfo         := &(cCampo)
 
 DbSelectArea("Z05") // Abre a tabela Z05
 Z05->(DbSetOrder(1)) // Seto o indice 1 para ordenação
@@ -47,8 +43,17 @@ WHILE Z05->(!EOF()) // Roda enquanto não for o fim da tabela
 Z05->(DbSkip())  
 ENDDO
 
-IF (nContMoto < nVagMoto) .or. (nContCar < nVagCar)
+IF cInfo == "1" .and. (nContCar < nVagCar)
     lRet := .T.
+ELSE
+    lRet := .F.
+
+    IF cInfo == "2" .and. (nContMoto < nVagMoto)
+        lRet := .T.
+    ELSE
+        lRet := .F.
+    ENDIF
+    
 ENDIF
 
 RETURN lRet
