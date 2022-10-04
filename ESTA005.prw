@@ -10,7 +10,6 @@ Projeto: Estacionamento
 USER FUNCTION ESTA005()
 local cTitulo       := "Movimentações"
 
-
 IF VerificaVaga()  == .T.
     AxCadastro("Z05",cTitulo)   
 ELSE
@@ -20,7 +19,7 @@ ENDIF
 RETURN NIL
 
 /*-----------------------------
-Função que verifica se tem vagas de carros disponíveis
+Função que verifica se tem vagas disponíveis
 Autor: Gabriel
 Data: 04/10/2022
 Projeto: Estacionamento
@@ -48,12 +47,11 @@ WHILE Z05->(!EOF()) // Roda enquanto não for o fim da tabela
 Z05->(DbSkip())  
 ENDDO
 
-IF (nContCar < nVagCar) .or. (nContMoto < nVagMoto)
+IF (nContMoto < nVagMoto) .or. (nContCar < nVagCar)
     lRet := .T.
 ENDIF
 
 RETURN lRet
-
 
 /*-----------------------------
 Função que verifica o carro ainda está no estacionamento
