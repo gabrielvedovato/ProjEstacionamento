@@ -9,18 +9,15 @@ Projeto: Estacionamento
 
 USER FUNCTION ESTA005()
 local cTitulo       := "Movimentações"
-LOCAL nVagCar       := SuperGetMV("ES_VAGACAR",.T.,"30")
-LOCAL nVagMoto      := SuperGetMV("ES_VAGAMOT",.T.,"30")
-LOCAL nContCar      := VagaCarro()
-LOCAL nContMoto     := VagaMoto()
 
-IF (nContCar < nVagCar) .or. (nContMoto < nVagMoto) 
+
+IF VerificaVaga()  == .T.
     AxCadastro("Z05",cTitulo)   
 ELSE
     Alert("Não possuem vagas disponíveis")
 ENDIF
 
-RETURN
+RETURN NIL
 
 /*-----------------------------
 Função que verifica se tem vagas de carros disponíveis
@@ -29,30 +26,11 @@ Data: 04/10/2022
 Projeto: Estacionamento
 ------------------------------*/
 
-STATIC FUNCTION VagaCarro()
-LOCAL nContCar     := 0
-
-DbSelectArea("Z05") // Abre a tabela Z05
-Z05->(DbSetOrder(1)) // Seto o indice 1 para ordenação
-Z05->(DbGoTop()) // Posiciona no topo da tabela
-
-WHILE Z05->(!EOF()) // Roda enquanto não for o fim da tabela
-    IF Z05->Z05_TIPO == "1"
-        nContCar++
-    ENDIF    
-        Z05->(DbSkip())   
-ENDDO
-
-RETURN nContCar
-
-/*-----------------------------
-Função que verifica se tem vagas de motos disponíveis
-Autor: Gabriel
-Data: 04/10/2022
-Projeto: Estacionamento
-------------------------------*/
-
-STATIC FUNCTION VagaMoto()
+STATIC FUNCTION VerificaVaga()
+LOCAL lRet          := .T.
+LOCAL nVagCar       := SuperGetMV("ES_VAGACAR",.T.,"30")
+LOCAL nVagMoto      := SuperGetMV("ES_VAGAMOT",.T.,"30")
+LOCAL nContCar      := 0
 LOCAL nContMoto     := 0
 
 DbSelectArea("Z05") // Abre a tabela Z05
@@ -60,13 +38,22 @@ Z05->(DbSetOrder(1)) // Seto o indice 1 para ordenação
 Z05->(DbGoTop()) // Posiciona no topo da tabela
 
 WHILE Z05->(!EOF()) // Roda enquanto não for o fim da tabela
-    IF Z05->Z05_TIPO == "2"
-        nContMoto++
-    ENDIF    
-        Z05->(DbSkip())   
+    IF (dTOs(Z05->Z05_DATSAI) == "        ")
+        IF (Z05->Z05_TIPO == "1")
+            nContCar++
+        ELSE
+            nContMoto++
+        ENDIF    
+    ENDIF
+Z05->(DbSkip())  
 ENDDO
 
-RETURN nContMoto
+IF (nContCar < nVagCar) .or. (nContMoto < nVagMoto)
+    lRet := .T.
+ENDIF
+
+RETURN lRet
+
 
 /*-----------------------------
 Função que verifica o carro ainda está no estacionamento
