@@ -50,3 +50,24 @@ IF (nVagCar > nContCar) .or. (nVagMot > nContMot) //Verifica se existe vagas
 ENDIF
 
 RETURN lRet
+
+/*-----------------------------
+Função que verifica o carro ainda está no estacionamento
+Autor: Gabriel
+Data: 03/10/2022
+Projeto: Estacionamento
+------------------------------*/
+
+USER FUNCTION FVerifica()
+LOCAL lRet := .T.
+
+DbSelectArea("Z05") // Abre a tabela Z05
+Z05->(DbSetOrder(6)) // Seto o indice para ordenação
+
+IF Z05->(dbSeek(FWxFilial("Z05")+M->Z05_PLACA+dTOs(Z05_DATSAI)))
+    lRet := .F.
+    Alert("Veículo ainda não teve saída!")
+ENDIF
+
+
+RETURN lRet
