@@ -19,7 +19,7 @@ Data: 04/10/2022
 Projeto: Estacionamento
 ------------------------------*/
 
-USER FUNCTION VerificaVaga()
+USER FUNCTION VagaVerifica()
 LOCAL lRet          := .T.
 LOCAL nVagCar       := SuperGetMV("ES_VAGACAR",.T.,"30")
 LOCAL nVagMoto      := SuperGetMV("ES_VAGAMOT",.T.,"30")
@@ -63,7 +63,7 @@ Data: 03/10/2022
 Projeto: Estacionamento
 ------------------------------*/
 
-USER FUNCTION FVerifica()
+USER FUNCTION PlacaVerifica()
 LOCAL lRet := .T.
 
 DbSelectArea("Z05") // Abre a tabela Z05
