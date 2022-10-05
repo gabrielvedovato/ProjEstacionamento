@@ -8,7 +8,7 @@ Projeto: Estacionamento
 ------------------------------*/
 
 USER FUNCTION ESTA005()
-local cTitulo       := "Movimentações"
+local cTitulo := "Movimentações"
 AxCadastro("Z05",cTitulo)   
 RETURN NIL
 
@@ -33,7 +33,7 @@ Z05->(DbSetOrder(1)) // Seto o indice 1 para ordenação
 Z05->(DbGoTop()) // Posiciona no topo da tabela
 
 WHILE Z05->(!EOF()) // Roda enquanto não for o fim da tabela
-    IF (dTOs(Z05->Z05_DATSAI) == "        ")
+    IF VAZIO(Z05_DATSAI)
         IF (Z05->Z05_TIPO == "1")
             nContCar++
         ELSE
@@ -50,10 +50,8 @@ ELSE
 
     IF cInfo == "2" .and. (nContMoto < nVagMoto)
         lRet := .T.
-    ELSE
-        lRet := .F.
     ENDIF
-    
+
 ENDIF
 
 RETURN lRet
