@@ -76,3 +76,25 @@ ENDIF
 
 
 RETURN lRet
+
+/*-----------------------------
+Função que verifica se a placa está com todos os campos preenchidos
+Autor: Gabriel
+Data: 05/10/2022
+Projeto: Estacionamento
+------------------------------*/
+
+USER FUNCTION PlacaCampo()
+LOCAL lRet          := .T.
+LOCAL cCampo        := ReadVar()
+LOCAL cTrim         := &(cCampo)
+LOCAL cInfo         := AllTrim(cTrim)
+LOCAL aTamanho      := TAMSX3("Z05_PLACA")
+LOCAL nTamanho      := aTamanho[1]
+
+IF Len(cInfo) # nTamanho
+    lRet := .F.
+    Alert("Placa não atende requistitos!")
+ENDIF
+
+RETURN lRet
