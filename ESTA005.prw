@@ -98,3 +98,27 @@ IF Len(cInfo) # nTamanho
 ENDIF
 
 RETURN lRet
+
+/*-----------------------------
+Função que verifica se a data não é anterior a da entrada
+Autor: Gabriel
+Data: 05/10/2022
+Projeto: Estacionamento
+------------------------------*/
+
+#INCLUDE "TOTVS.CH"
+
+USER FUNCTION DataVerifica()
+
+LOCAL lRet := .T.
+LOCAL dDtEnt := Z05->Z05_DATENT
+LOCAL dDtSai := M->Z05_DATSAI
+
+
+IF (dDtSai-dDtEnt) < 0
+    lRet := .F.
+    Alert("Insira a data de saída correta!")
+ENDIF
+
+
+RETURN lRet
