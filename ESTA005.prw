@@ -31,8 +31,9 @@ LOCAL cInfo         := &(cCampo)
 DbSelectArea("Z05") // Abre a tabela Z05
 Z05->(DbSetOrder(1)) // Seto o indice 1 para ordenação
 Z05->(DbGoTop()) // Posiciona no topo da tabela
+Z05->(dbSeek(cFilAnt+Z05_COD))
 
-WHILE Z05->(!EOF()) // Roda enquanto não for o fim da tabela
+WHILE Z05->(!EOF()) .and. (Z05_FILIAL == cFilAnt) // Roda enquanto não for o fim da tabela
     IF VAZIO(Z05_DATSAI)
         IF (Z05->Z05_TIPO == "1")
             nContCar++
@@ -106,19 +107,15 @@ Data: 05/10/2022
 Projeto: Estacionamento
 ------------------------------*/
 
-#INCLUDE "TOTVS.CH"
-
 USER FUNCTION DataVerifica()
 
-LOCAL lRet := .T.
+LOCAL lRet   := .T.
 LOCAL dDtEnt := Z05->Z05_DATENT
 LOCAL dDtSai := M->Z05_DATSAI
 
-
-IF (dDtSai-dDtEnt) < 0
-    lRet := .F.
-    Alert("Insira a data de saída correta!")
-ENDIF
-
+    IF (dDtSai-dDtEnt) < 0
+        lRet := .F.
+        Alert("Insira a data de saída correta!")
+    ENDIF
 
 RETURN lRet
