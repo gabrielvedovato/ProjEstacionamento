@@ -112,9 +112,9 @@ LOCAL lRet   := .T.
 LOCAL dDtEnt := Z05->Z05_DATENT
 LOCAL dDtSai := M->Z05_DATSAI
 
-    IF (dDtSai-dDtEnt) < 0
-        lRet := .F.
-        Alert("Insira a data de saída correta!")
-    ENDIF
+IF (dDtSai-dDtEnt) < 0
+    lRet := .F.
+    Alert("Insira a data de saída correta!")
+ENDIF
 
 RETURN lRet
