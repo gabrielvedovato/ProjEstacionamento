@@ -32,7 +32,7 @@ DbSelectArea("Z05") // Abre a tabela Z05
 Z05->(DbSetOrder(1)) // Seto o indice 1 para ordenação
 Z05->(DbGoTop()) // Posiciona no topo da tabela
 
-IF Z05->(dbSeek(cFilAnt+Z05_COD)) == .T.
+IF Z05->(dbSeek(cFilAnt))
     WHILE Z05->(!EOF()) .and. (Z05_FILIAL == cFilAnt)
         IF VAZIO(Z05_DATSAI)
             IF (Z05->Z05_TIPO == "1")
