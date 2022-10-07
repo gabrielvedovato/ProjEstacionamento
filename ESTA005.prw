@@ -22,7 +22,7 @@ Projeto: Estacionamento
 USER FUNCTION VagaVerifica()
 LOCAL lRet          := .T.
 LOCAL nVagCar       := SuperGetMV("ES_VAGACAR",.T.,"30")
-LOCAL nVagMoto      := SuperGetMV("ES_VAGAMOT",.T.,"30")
+LOCAL nVagMoto      := SuperGetMV("ES_VAGAMOT",.T.,"10")
 LOCAL nContCar      := 0
 LOCAL nContMoto     := 0
 LOCAL cCampo        := ReadVar()
@@ -33,7 +33,7 @@ Z05->(DbSetOrder(1)) // Seto o indice 1 para ordenação
 Z05->(DbGoTop()) // Posiciona no topo da tabela
 
 IF Z05->(dbSeek(cFilAnt+Z05_COD)) == .T.
-    WHILE Z05->(!EOF()) .and. (Z05_FILIAL == cFilAnt) // Roda enquanto não for o fim da tabela
+    WHILE Z05->(!EOF()) .and. (Z05_FILIAL == cFilAnt)
         IF VAZIO(Z05_DATSAI)
             IF (Z05->Z05_TIPO == "1")
                 nContCar++
@@ -46,11 +46,13 @@ IF Z05->(dbSeek(cFilAnt+Z05_COD)) == .T.
     
     IF cInfo == "1" .and. (nContCar < nVagCar)
         lRet := .T.
-    ELSE
-        lRet := .F.
         IF cInfo == "2" .and. (nContMoto < nVagMoto)
             lRet := .T.
+        ELSE
+            lRet := .F.
         ENDIF
+    ELSE
+        lRet := .F.
     ENDIF
 ENDIF
 RETURN lRet
@@ -72,7 +74,6 @@ IF Z05->(dbSeek(FWxFilial("Z05")+M->Z05_PLACA+dTOs(Z05_DATSAI)))
     lRet := .F.
     Alert("Veículo ainda não teve saída!")
 ENDIF
-
 
 RETURN lRet
 
