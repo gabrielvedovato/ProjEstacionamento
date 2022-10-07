@@ -46,13 +46,13 @@ IF Z05->(dbSeek(cFilAnt+Z05_COD)) == .T.
     
     IF cInfo == "1" .and. (nContCar < nVagCar)
         lRet := .T.
+    ELSE
+        lRet := .F.
         IF cInfo == "2" .and. (nContMoto < nVagMoto)
             lRet := .T.
         ELSE
             lRet := .F.
         ENDIF
-    ELSE
-        lRet := .F.
     ENDIF
 ENDIF
 RETURN lRet
