@@ -33,7 +33,7 @@ TRCell():New(oSection1,"Z05_PLACA","Z05","Placa", /*Picture*/, /*Tamanho*/,/*lPi
 TRCell():New(oSection1,"Z05_NOMOPE","Z05","Nome do operador", /*Picture*/, /*Tamanho*/,/*lPixel*/,/*{|| code-block de impressao }*/)
 TRCell():New(oSection1,"Z05_NOMMOD","Z05","Nome do modelo", /*Picture*/, /*Tamanho*/,/*lPixel*/,/*{|| code-block de impressao }*/)
 TRCell():New(oSection1,"Z05_NOMMAR","Z05","Nome da marca", /*Picture*/, /*Tamanho*/,/*lPixel*/,/*{|| code-block de impressao }*/)
-//TRCell():New(oSection2,"Z05_TMPMED","Z05","Tempo médio de estadia", /*Picture*/, /*Tamanho*/,/*lPixel*/,/*{|| code-block de impressao }*/)
+TRCell():New(oSection2,"Z05_TMPMED","Z05","Tempo médio de estadia", /*Picture*/, /*Tamanho*/,/*lPixel*/,/*{|| code-block de impressao }*/)
 TRCell():New(oSection2,"Z05_SOMVAL","Z05","Total ganho", /*Picture*/, /*Tamanho*/,/*lPixel*/,/*{|| code-block de impressao }*/)
 
 
@@ -43,13 +43,12 @@ STATIC FUNCTION reportPrint(oReport, oSection1,oSection2)
 LOCAL cHrEnt    := ""
 LOCAL cHrSai    := ""
 LOCAL cQtdHor   := ""
-LOCAL cTotHr    := ""
-LOCAL cMedia    := ""
+LOCAL nTotHr    := 0
+LOCAL nMedia    := 0
 LOCAL nContHr   := 0
 LOCAL nSoma     := 0
 LOCAL nValor    := 0
 LOCAL cTotal    := ""
-
 
 
 dbSelectArea("Z01")
@@ -80,7 +79,7 @@ WHILE Z05->(!EOF())
     IF !VAZIO(Z05->Z05_HORSAI)
         cQtdHor := ELAPTIME(cHrEnt,cHrSai)
         nContHr++
-        cTotHr  := cTotHr + cQtdHor
+        nTotHr  := nTotHr + VAL(cQtdHor)
         nValor  := (Z05->Z05_VALOR)
         nSoma   := nSoma + nValor
         cTotal  := "R$ " + CValToChar(nSoma)
@@ -106,8 +105,9 @@ Z05->(dbSkip())
 
 ENDDO
 
-cMedia  := cTotHr/nContHr
-oSection2:Cell("Z05_TMPMED"):SetValue(cMedia)
+nMedia  := cValtoChar(ROUND((nTotHr/nContHr),1)) + " HORAS"
+
+oSection2:Cell("Z05_TMPMED"):SetValue(nMedia)
 oSection2:Cell("Z05_SOMVAL"):SetValue(cTotal)
 oSection2:PrintLine()    
 oReport:incMeter()
