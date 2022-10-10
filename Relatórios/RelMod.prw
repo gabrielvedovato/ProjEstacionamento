@@ -49,6 +49,7 @@ oSection1:Cell("Z02_CODMAR"):SetValue(Z02->Z02_CODMAR)
 oSection1:Cell("Z02_NOMMAR"):SetValue(Z02->Z02_NOMMAR)
 oSection1:PrintLine()
 
+
 oReport:incMeter()
 Z02->(dbSkip())
 ENDDO
